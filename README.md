@@ -4,3 +4,4 @@
 4. Bayu
 5. Affy
 6. Riza
+7. Rikky

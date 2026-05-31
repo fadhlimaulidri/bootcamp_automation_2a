@@ -1,2 +1,3 @@
 1. Fadhli
-2. Putri
+2. Steve
+3. Putri

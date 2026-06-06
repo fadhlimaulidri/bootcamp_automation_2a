@@ -1,4 +1,17 @@
 import { test, expect } from '@playwright/test';
+import { LoginPage } from '../pages/login.page';
+
+test('Successfullly login use valid credential using page object @p0 @login @positive @smoketest', async ({ page }) => {
+  const email = "testingemrachat@gmail.com"
+  const password = "tester!3"
+  const loginPage = new LoginPage(page)
+
+  await loginPage.goto()
+
+  await loginPage.emailField.fill(email)
+  await loginPage.passwordField.fill(password)
+  await loginPage.loginButton.click();
+});
 
 test('Successfullly login use valid credential @p0 @login @positive @smoketest', async ({ page }) => {
   

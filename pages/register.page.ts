@@ -1,18 +1,18 @@
 import { type Locator, type Page } from '@playwright/test';
 
-export class LoginPage {
+export class RegisterPage {
   readonly page: Page;
   readonly emailField: Locator;
   readonly passwordField: Locator;
-  readonly loginButton: Locator;
-  readonly forgotLink: Locator;
+  readonly confirmpasswordField: Locator;
+  readonly nextButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
-    this.emailField = page.locator("//input[@placeholder='you@example.com']")
+    this.emailField = page.locator('#email')
     this.passwordField = page.locator('#password');
-    this.loginButton = page.getByRole('button', { name: 'Sign In' })
-    this.forgotLink = page.getByRole('link', { name: 'Forgot?' });
+    this.confirmpasswordField = page.getByRole('button', { name: 'Sign In' });
+    this.nextButton = page.getByRole('link', { name: 'Forgot?' });
   }
 
   async goto() {

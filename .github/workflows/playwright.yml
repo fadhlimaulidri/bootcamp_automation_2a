@@ -14,12 +14,16 @@ jobs:
      - name: Checkout Repository
        uses: actions/checkout@v4
 
-     - name: Copy source to /app
-       run: cp -r /__w/bootcamp_automation_2a/bootcamp_automation_2a/. /app/
+     - name: Install dependencies
+       run: npm ci
+
+     - name: Install Playwright Browsers
+       run: npx playwright install --with-deps chromium
+       env:
+         PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
 
      - name: Run Playwright tests
        run: npx playwright test
-       working-directory: /app
        env:
          PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
      - uses: actions/upload-artifact@v4

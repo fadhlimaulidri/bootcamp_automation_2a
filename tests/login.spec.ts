@@ -1,38 +1,56 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/login.page';
+import userData from '../data/production/user.json'
+import { pushTestResultToAgentQ } from '../helper/agentq-helper'; 
 
-test('Successfullly login use valid credential using page object @p0 @login @positive @smoketest', async ({ page }) => {
-  const email = "testingemrachat@gmail.com"
-  const password = "tester!3"
-  const loginPage = new LoginPage(page)
+test.describe('Authentication Tests', () => {
 
-  await loginPage.goto()
+  test.beforeEach(async () => {
+    let testStartTime = Date.now();
+  });
 
-  await loginPage.emailField.fill(email)
-  await loginPage.passwordField.fill(password)
-  await loginPage.loginButton.click();
-});
+  test.afterEach(async ({}, testInfo) => {
+    const executionTime = Date.now() - testStartTime;
+    const errorDetails = testInfo.errors.map(e => e.message).join('; ');
+    const title = testInfo.title ?? 'Unknown test';
+    const status = testInfo.status ?? 'unknown';
+    await pushTestResultToAgentQ(title, status, executionTime, errorDetails);
+  });
 
-test('Successfullly login use valid credential @p0 @login @positive @smoketest', async ({ page }) => {
-  
-  // precondition
-  await page.goto('https://www.emra.chat/login');
-  
-  // Step
-  await page.getByRole('textbox', { name: 'Email' }).fill('testingemrachat@gmail.com');
-  await page.getByRole('textbox', { name: 'Password' }).fill('tester!3');
-  await page.getByRole('button', { name: 'Sign In' }).click();
-  
-  // Expected result
-  await expect(page.getByRole('heading', { name: 'Emra', exact: true })).toBeVisible();
-});
+  test('97-Successfullly login use valid credential using page object @p0 @login @positive @smoketest', async ({ page }) => {
+    const email = userData['valid_user']['email']
+    const password = userData['valid_user']['password']
+    const loginPage = new LoginPage(page)
 
-test('Unsuccessfully login use invalid credential @p1 @login @negative @smoketest', async ({ page }) => {
-  await page.goto('https://www.emra.chat/login');
-  await page.getByRole('textbox', { name: 'Email' }).click();
-  await page.getByRole('textbox', { name: 'Email' }).fill('testingemrachat@gmail.com');
-  await page.getByRole('textbox', { name: 'Password' }).click();
-  await page.getByRole('textbox', { name: 'Password' }).fill('Password123');
-  await page.getByRole('button', { name: 'Sign In' }).click();
-  await expect(page.getByText('Invalid credentials')).toBeVisible();
+    await loginPage.goto()
+
+    await loginPage.emailField.fill(email)
+    await loginPage.passwordField.fill(password)
+    await loginPage.loginButton.click();
+  });
+
+  test('98-Successfullly login use valid credential @p0 @login @positive @smoketest', async ({ page }) => {
+    
+    // precondition
+    await page.goto('/login');
+    
+    // Step
+    await page.getByRole('textbox', { name: 'Email' }).fill('testingemrachat@gmail.com');
+    await page.getByRole('textbox', { name: 'Password' }).fill('tester!3');
+    await page.getByRole('button', { name: 'Sign In' }).click();
+    
+    // Expected result
+    await expect(page.getByRole('heading', { name: 'Easdasdmra', exact: true })).toBeVisible();
+  });
+
+  test('99-Unsuccessfully login use invalid credential @p1 @negative @smoketest', async ({ page }) => {
+    await page.goto('/login');
+    await page.getByRole('textbox', { name: 'Email' }).click();
+    await page.getByRole('textbox', { name: 'Email' }).fill('testingemrachat@gmail.com');
+    await page.getByRole('textbox', { name: 'Password' }).click();
+    await page.getByRole('textbox', { name: 'Password' }).fill('Password123');
+    await page.getByRole('button', { name: 'Sign In' }).click();
+    await expect(page.getByText('Invalid credentials')).toBeVisible();
+  });
+
 });

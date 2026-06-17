@@ -13,6 +13,8 @@
     "@types/node": "^25.9.1"
   },
   "dependencies": {
-    "@faker-js/faker": "^10.4.0"
+    "@faker-js/faker": "^10.4.0",
+    "agentq-playwright": "^1.0.67",
+    "dotenv": "^17.4.2"
   }
 }

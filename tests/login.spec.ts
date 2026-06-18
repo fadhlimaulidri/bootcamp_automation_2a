@@ -4,9 +4,10 @@ import userData from '../data/production/user.json'
 import { pushTestResultToAgentQ } from '../helper/agentq-helper'; 
 
 test.describe('Authentication Tests', () => {
+  let testStartTime: number;
 
   test.beforeEach(async () => {
-    let testStartTime = Date.now();
+    testStartTime = Date.now();
   });
 
   test.afterEach(async ({}, testInfo) => {
@@ -17,7 +18,7 @@ test.describe('Authentication Tests', () => {
     await pushTestResultToAgentQ(title, status, executionTime, errorDetails);
   });
 
-  test('97-Successfullly login use valid credential using page object @p0 @login @positive @smoketest', async ({ page }) => {
+  test('1-Successfullly login use valid credential using page object @p0 @login @positive @smoketest', async ({ page }) => {
     const email = userData['valid_user']['email']
     const password = userData['valid_user']['password']
     const loginPage = new LoginPage(page)

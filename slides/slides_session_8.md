@@ -170,10 +170,10 @@ Skenario: AI diminta untuk menavigasi ke halaman form penambahan kontak di `emra
 ### Prompt ke AI:
 
 ```
-Login dulu menggunakan valid user,
+Login dulu menggunakan valid user yang ada di file user.json,
 lalu gunakan navigate_to ke https://emra.chat/contacts/add,
-lalu ambil screenshot halaman tersebut dan verifikasi apakah
-kemudian tambahkan contact dengan nama dummy "Test", email dummy "[EMAIL_ADDRESS]" dan nomor telepon dummy "08123456789",
+lalu ambil screenshot halaman tersebut dan verifikasi apakah sudah berada di halaman contact
+kemudian tambahkan contact dengan nama dummy "Test", email dummy "qa-date_now@yopmail.com" dan nomor telepon dummy "0812xxxxxxx",
 setelah itu klik tombol create contact.
 Setelah selesai memverifikasi, buatkan snippet kode Playwright (POM) untuk halaman Add Contact tersebut dan buatkan juga spec test nya.
 ```

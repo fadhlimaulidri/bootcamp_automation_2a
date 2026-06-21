@@ -93,57 +93,92 @@ flowchart LR
 ## Lokasi File
 
 ```
-your-repo/
+bootcamp_automation_2a/
 ├── .github/
 │   └── workflows/
-│       └── ci.yml              ← Workflow harus di sini
+│       ├── playwright.yml              ← Workflow utama (run tests)
+│       └── docker-build-base.yml       ← Workflow build Docker image
 ├── tests/
+│   ├── login.spec.ts
+│   ├── register.spec.ts
+│   └── api/
+│       ├── auth.spec.ts
+│       ├── public.spec.ts
+│       └── profile.spec.ts
+├── pages/
+│   ├── login.page.ts
+│   └── register.page.ts
+├── helper/
+│   ├── api-helpers.ts
+│   └── agentq-helper.ts
+├── data/
+│   └── production/
+│       └── user.json
+├── json-schema/
 ├── package.json
-└── Dockerfile
+├── playwright.config.ts
+├── Dockerfile
+└── docker.sh
 ```
 
 > Folder `.github/workflows/` wajib. Kalau salah tempat, GitHub Actions tidak akan detect.
 
-## Anatomi Workflow YAML
+## Anatomi Workflow YAML (`playwright.yml`)
 
 ```yaml
-name: CI Pipeline              # 1. Nama workflow
+name: Playwright Tests        # 1. Nama workflow
 
-on:                            # 2. Kapan di-trigger
+on:                           # 2. Kapan di-trigger
   push:
-    branches: [main, master]
-  workflow_dispatch:            # Bisa trigger manual
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
 
-jobs:                          # 3. Job yang dijalankan
-  test:                        # Nama job
-    runs-on: ubuntu-latest     # 4. OS runner
-    container:                 # 5. Docker container
-      image: mcr.microsoft.com/playwright:v1.58.2-jammy
-      options: --user root
-    steps:                     # 6. Langkah-langkah
-      - name: Checkout code
+jobs:                         # 3. Job yang dijalankan
+  test:                       # Nama job
+    timeout-minutes: 60        # 4. Batas waktu maksimal
+    runs-on: ubuntu-latest    # 5. OS runner
+    container:                # 6. Docker container
+      image: fadhlimaulidri/bootcamp_automation_2a:base
+    steps:                    # 7. Langkah-langkah
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Install dependencies
         run: npm ci
 
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
+
       - name: Run Playwright tests
         run: npx playwright test
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
 ```
 
 ## Trigger yang Sering Dipakai
 
 | Trigger | Kapan Jalan | Contoh |
 |---------|-------------|--------|
-| `push` | Saat push ke branch | Test di main branch |
+| `push` | Saat push ke branch | Test di main/master branch |
 | `pull_request` | Saat buat/update PR | Validasi sebelum merge |
 | `workflow_dispatch` | Manual button | On-demand testing |
 
 ```yaml
 on:
   push:
-    branches: [main]
-  workflow_dispatch:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
 ```
 
 ---
@@ -158,11 +193,10 @@ on:
 
 ```
 Docker Image = Flashdisk yang isinya:
-  - Node.js
+  - Node.js 20
   - NPM dependencies
-  - Playwright + browser
+  - Playwright + browser (chromium)
   - Source code test kamu
-  - docker.sh (script runner)
 
 Docker Container = Kalau flashdisk itu di-plug-in dan dijalankan
 ```
@@ -179,19 +213,21 @@ Docker Container = Kalau flashdisk itu di-plug-in dan dijalankan
 
 ```
 STAGE 1: Build Base Image (dilakukan sekali saja)
-┌─────────────────────────────────────┐
-│  Build Docker image                 │
-│  (bake-in: Node, Playwright, deps)  │
-│  Push ke Docker Hub                 │
-└──────────────┬──────────────────────┘
-               │ image sudah siap
-               ▼
+┌─────────────────────────────────────────────┐
+│  Build Docker image                         │
+│  (bake-in: Node 20, Playwright, chromium)    │
+│  Push ke Docker Hub                          │
+│  Workflow: docker-build-base.yml             │
+└──────────────────┬──────────────────────────┘
+                   │ image sudah siap
+                   ▼
 STAGE 2: Run Tests (otomatis setiap push/PR)
-┌─────────────────────────────────────┐
-│  Pull image dari Docker Hub         │
-│  Jalankan Playwright tests          │
-│  Upload hasil test (artifact)       │
-└─────────────────────────────────────┘
+┌─────────────────────────────────────────────┐
+│  Pull image dari Docker Hub                 │
+│  Jalankan Playwright tests                  │
+│  Upload hasil test (artifact)               │
+│  Workflow: playwright.yml                    │
+└─────────────────────────────────────────────┘
 ```
 
 ## File yang Terlibat
@@ -201,14 +237,14 @@ STAGE 2: Run Tests (otomatis setiap push/PR)
 | `Dockerfile` | Resep untuk bikin Docker image |
 | `docker.sh` | Script yang jalan saat container start |
 | `docker-build-base.yml` | Workflow untuk build & push image ke Docker Hub |
-| `ci.yml` | Workflow untuk run tests pakai image tersebut |
+| `playwright.yml` | Workflow utama untuk run tests pakai image tersebut |
 
 ---
 
 # 5. Live Demo — Step by Step (15 menit)
 
 > **PENTING:** Image sudah di-pre-build oleh instruktur sebelum kelas.
-> Peserta langsung fokus ke Stage 2 (ci.yml).
+> Peserta langsung fokus ke Stage 2 (`playwright.yml`).
 
 ## Demo Step 1: `Dockerfile`
 
@@ -218,34 +254,32 @@ FROM node:20
 WORKDIR /app
 
 ENV PATH /app/node_modules/.bin:$PATH
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 
 COPY package*.json ./
 RUN npm ci
 
-COPY . /app/
-RUN chmod +x /app/docker.sh
-
-USER root
-
 RUN npx playwright install --with-deps
-
-ENV PLAYWRIGHT_BROWSERS_PATH=0
-
-ENTRYPOINT [ "/app/docker.sh" ]
 ```
 
 | Instruction | Fungsi |
 |-------------|--------|
 | `FROM node:20` | Pakai base image Node.js 20 |
 | `WORKDIR /app` | Set working directory |
-| `COPY + RUN npm ci` | Install dependencies |
-| `RUN npx playwright install --with-deps` | Install browser Playwright |
-| `ENTRYPOINT` | Script yang otomatis jalan saat container start |
+| `ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright` | Set path browser Playwright di container |
+| `COPY + RUN npm ci` | Install dependencies dari `package.json` |
+| `RUN npx playwright install --with-deps` | Install browser Playwright + system dependencies |
+
+> **Catatan:** Tidak perlu `COPY . /app/` karena code di-checkout GitHub Actions. Tidak perlu `ENTRYPOINT` karena `playwright.yml` menjalankan `npx playwright test` langsung.
 
 ## Demo Step 2: `docker.sh`
 
 ```bash
 #!/bin/bash
+
+# docker.sh - Entry point script for running Playwright tests
+# This script runs when Docker container starts
+
 echo "🚀 Running Playwright tests..."
 npx playwright test
 ```
@@ -270,17 +304,58 @@ jobs:
         env:
           DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}
           DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+          YOUR_REPO_NAME: "bootcamp_automation_2a"
         run: echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
 
       - name: Build and Push Base Image
         run: |
-          docker build -t $DOCKERHUB_USERNAME/YOUR_REPO_NAME:base .
-          docker push $DOCKERHUB_USERNAME/YOUR_REPO_NAME:base
+          docker build -t $DOCKERHUB_USERNAME/bootcamp_automation_2a:base .
+          docker push $DOCKERHUB_USERNAME/bootcamp_automation_2a:base
         env:
           DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}
 ```
 
 > Instruksi setup Docker Hub credentials ada di bagian Hands-On.
+
+## Demo Step 4: `playwright.config.ts` — Konfigurasi Penting untuk CI
+
+```typescript
+import { defineConfig, devices } from '@playwright/test';
+import dotenv from 'dotenv';
+dotenv.config();
+
+export default defineConfig({
+  testDir: './tests',
+  fullyParallel: true,
+  forbidOnly: !!process.env.CI,          // Larang .only() di CI
+  retries: process.env.RETRY
+    ? parseInt(`${process.env.RETRY}`, 10)
+    : 2,                                 // Retry 2x kalau gagal
+  workers: process.env.WORKER
+    ? parseInt(`${process.env.WORKER}`, 10)
+    : 1,                                 // Jumlah parallel worker
+  timeout: 10000,                        // 10 detik per test
+  reporter: 'html',
+  use: {
+    baseURL: process.env.BASE_URL,        // Ambil dari .env
+    trace: 'on-first-retry',              // Trace kalau retry
+    screenshot: 'only-on-failure',       // Screenshot kalau fail
+    video: 'retain-on-failure',          // Video kalau fail
+    headless: process.env.CI ? true : false,  // Auto headless di CI
+  },
+  projects: [
+    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+  ],
+});
+```
+
+| Setting | Kegunaan |
+|---------|----------|
+| `forbidOnly: !!process.env.CI` | Mencegah test `.only()` lolos ke production |
+| `retries: 2` | Auto retry test yang gagal (flaky test handling) |
+| `headless: process.env.CI ? true : false` | Otomatis headless saat di GitHub Actions |
+| `trace / screenshot / video` | Evidence otomatis saat test gagal |
+| `dotenv.config()` | Baca environment variable dari file `.env` |
 
 ---
 
@@ -314,50 +389,48 @@ GitHub Repo → Settings → Secrets and variables → Actions
 
 ---
 
-## Task 2: Buat File Workflow `ci.yml` (5 menit)
+## Task 2: Buat File Workflow `playwright.yml` (5 menit)
 
-Buat file `.github/workflows/ci.yml`:
+Buat file `.github/workflows/playwright.yml`:
 
 ```yaml
-name: Playwright CI Pipeline
-
+name: Playwright Tests
 on:
   push:
-    branches: [main, master]
+    branches: [ main, master ]
   pull_request:
-    branches: [main, master]
-  workflow_dispatch:
-
+    branches: [ main, master ]
 jobs:
   test:
-    name: 🧪 Run Playwright Tests
     timeout-minutes: 60
     runs-on: ubuntu-latest
     container:
-      image: INSTRUKTUR_USERNAME/REPO_NAME:base
-      options: --user root
+      image: INSTRUKTUR_USERNAME/bootcamp_automation_2a:base
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+     - name: Checkout Repository
+       uses: actions/checkout@v4
 
-      - name: Install Dependencies
-        run: npm ci
+     - name: Install dependencies
+       run: npm ci
 
-      - name: Run Playwright Tests
-        run: |
-          cd /app
-          bash docker.sh
+     - name: Install Playwright Browsers
+       run: npx playwright install --with-deps chromium
+       env:
+         PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
 
-      - name: Upload Test Results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
+     - name: Run Playwright tests
+       run: npx playwright test
+       env:
+         PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
+     - uses: actions/upload-artifact@v4
+       if: ${{ !cancelled() }}
+       with:
+        name: playwright-report
+        path: playwright-report/
+        retention-days: 30
 ```
 
-> ⚠️ Ganti `INSTRUKTUR_USERNAME/REPO_NAME` dengan image name yang disediakan instruktur
+> ⚠️ Ganti `INSTRUKTUR_USERNAME` dengan username Docker Hub instruktur
 
 ---
 
@@ -365,14 +438,14 @@ jobs:
 
 ```bash
 git add .
-git commit -m "feat: add CI pipeline with Docker"
+git commit -m "feat: add Playwright CI pipeline with Docker"
 git push
 ```
 
 Atau trigger manual:
 
 ```
-GitHub → Actions → "Playwright CI Pipeline" → Run workflow
+GitHub → Actions → "Playwright Tests" → Run workflow
 ```
 
 ---
@@ -399,9 +472,9 @@ GitHub → Actions tab → Click workflow run yang terbaru → View logs real-ti
 Kalau masih ada waktu, edit `README.md`:
 
 ```markdown
-# Nama Project
+# Bootcamp Automation 2A
 
-![Playwright CI](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/ci.yml/badge.svg)
+![Playwright Tests](https://github.com/YOUR_USERNAME/bootcamp_automation_2a/actions/workflows/playwright.yml/badge.svg)
 ```
 
 Hasilnya:
@@ -417,12 +490,13 @@ Hasilnya:
 
 | Masalah | Solusi |
 |---------|--------|
-| **Permission denied** | Pastikan ada `options: --user root` |
-| **Browser not found** | Pastikan `PLAYWRIGHT_BROWSERS_PATH=0` di Dockerfile |
+| **Permission denied** | Pastikan `PLAYWRIGHT_BROWSERS_PATH` sesuai antara Dockerfile & workflow |
+| **Browser not found** | Pastikan `ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright` di Dockerfile DAN di env workflow |
 | **Image not found / pull error** | Cek nama image dan Docker Hub login |
 | **npm ci gagal** | Pastikan `package-lock.json` ada di repo |
-| **Test timeout** | Tambah `timeout-minutes` di workflow |
+| **Test timeout** | Tambah `timeout-minutes: 60` di workflow |
 | **Workflow tidak muncul** | Cek folder `.github/workflows/` sudah benar |
+| **Artifact kosong** | Pastikan `if: ${{ !cancelled() }}` agar report tetap upload walau test gagal |
 
 ---
 
@@ -434,30 +508,51 @@ Hasilnya:
 |-------|-----------|
 | **CI/CD** | Test otomatis jalan setiap push code |
 | **GitHub Actions** | Platform CI/CD gratis dari GitHub |
-| **Workflow YAML** | File konfigurasi pipeline |
+| **Workflow YAML** | File konfigurasi pipeline (`playwright.yml`) |
 | **Docker** | Packaging environment test agar konsisten |
-| **Two-Stage Pipeline** | Build image sekali, pakai berkali-kali |
+| **Two-Stage Pipeline** | Build image sekali (`docker-build-base.yml`), pakai berkali-kali (`playwright.yml`) |
+| **Playwright Config** | `forbidOnly`, `retries`, `headless` di CI, evidence otomatis |
 
 ## File yang Ada di Project Kita Sekarang
 
 ```
-project-root/
+bootcamp_automation_2a/
 ├── .github/
 │   └── workflows/
-│       └── ci.yml                  ← Pipeline yang trigger otomatis
-├── Dockerfile                      ← Resep Docker image
-├── docker.sh                       ← Script runner
+│       ├── playwright.yml                ← Pipeline utama (trigger otomatis)
+│       └── docker-build-base.yml         ← Pipeline build Docker image
+├── Dockerfile                            ← Resep Docker image
+├── docker.sh                             ← Script runner
 ├── tests/
-├── playwright.config.ts
-└── package.json
+│   ├── login.spec.ts                     ← UI test: login
+│   ├── register.spec.ts                  ← UI test: register
+│   └── api/
+│       ├── auth.spec.ts                  ← API test: auth login
+│       ├── public.spec.ts                ← API test: public endpoint
+│       └── profile.spec.ts               ← API test: profile + JSON schema validation
+├── pages/
+│   ├── login.page.ts                     ← Page Object: Login
+│   └── register.page.ts                 ← Page Object: Register
+├── helper/
+│   ├── api-helpers.ts                    ← Helper: API auth & requests
+│   └── agentq-helper.ts                  ← Helper: push test result ke AgentQ
+├── data/
+│   └── production/
+│       └── user.json                    ← Test data: valid & invalid user
+├── json-schema/
+│   └── user-response-schema.json        ← Schema validation untuk API response
+├── playwright.config.ts                 ← Konfigurasi Playwright
+├── .env                                 ← Environment variables (BASE_URL, dll)
+└── package.json                         ← Dependencies
 ```
 
 ## Next Steps (Session Berikutnya)
 
-- 🏷️ Test tags — filter test berdasarkan @smoke, @regression
-- 📸 Screenshot & Video configuration
-- 📱 WhatsApp notification saat test selesai
+- 🏷️ Test tags — filter test berdasarkan @smoke, @regression, @p0, @p1
+- 📸 Screenshot & Video configuration — evidence otomatis
+- 📱 WhatsApp/Slack notification saat test selesai
 - 🔍 Code quality check dengan ESLint
+- 🔗 AgentQ integration — push test result otomatis ke test management
 
 ---
 

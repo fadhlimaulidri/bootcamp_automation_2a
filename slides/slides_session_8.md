@@ -450,9 +450,9 @@ Tambahkan ke file konfigurasi global atau lokal (biasanya di `~/.claude.json`, `
 ### Skenario Prompts Praktikal dengan AgentQ:
 
 ```
-"Tolong panggil get_test_case dari AgentQ untuk membaca isi Test Case dengan ID TC-24. 
-Pahami langkah-langkah pengujian (steps) dan expected result-nya, 
-kemudian buatkan automation test Playwright (.spec.ts) yang utuh beserta POM lamannya."
+"Tolong panggil get_test_case dari AgentQ untuk membaca isi Test Case dengan ID TC-10. 
+Pahami langkah-langkah pengujian (steps) dan expected result-nya, kemudian jalankan test nya menggunakan playwright mcp dengan
+buatkan automation test Playwright (.spec.ts) yang utuh beserta POM lamannya."
 ```
 
 *(Kekuatan MCP: AI tidak lagi butuh Anda copy-paste dokumen Word/Excel. AI akan "membaca" dari database management tools secara mandiri, lalu menyulapnya menjadi test script).*

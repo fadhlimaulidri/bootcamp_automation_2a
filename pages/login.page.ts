@@ -16,7 +16,8 @@ export class LoginPage {
   }
 
   async goto() {
-    await this.page.goto('/login');
+    // await this.page.goto('/login'); --> because of URL is located on .env file and not push to github, the testing is error
+    await this.page.goto('https://www.emra.chat/login'); // changes from Putri due to the .env file cannot be accessed by playwright test, so I hardcode the URL here
   }
 
   async loginAs(email: string, password: string) {

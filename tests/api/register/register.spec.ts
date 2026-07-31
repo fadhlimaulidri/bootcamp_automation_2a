@@ -1,11 +1,26 @@
 import { test, expect } from '@playwright/test';
 import { UserFactory } from '../../../utils/user-factory';
+import { pushTestResultToAgentQ } from '../../../helpers/agentq-helper';
 
 test.describe('Register API Tests - User Story 1', () => {
-  const baseURL = 'https://api.emra.com'; // Sesuaikan dengan base URL API Anda
+  let testStartTime: number;
+
+  test.beforeEach(async () => {
+    testStartTime = Date.now();
+  });
+
+  test.afterEach(async ({}, testInfo) => {
+    const executionTime = Date.now() - testStartTime;
+    const errorDetails = testInfo.errors.map(e => e.message).join('; ');
+    const title = testInfo.title ?? 'Unknown test';
+    const status = testInfo.status ?? 'unknown';
+    
+    await pushTestResultToAgentQ(title, status, executionTime, errorDetails);
+  });
+  const baseURL = process.env.API_BASE_URL || 'https://api.emra.chat'; // Mengambil dari .env
 
   // BE-01: Registrasi sukses dan BE-06: JWT Tokens
-  test('TC-API-01: Should register a new user successfully and return JWT tokens', async ({ request }) => {
+  test('76-TC-API-01: Should register a new user successfully and return JWT tokens', async ({ request }) => {
     const user = UserFactory.createUser();
 
     const response = await request.post(`${baseURL}/api/v1/auth/register`, {
@@ -15,9 +30,9 @@ test.describe('Register API Tests - User Story 1', () => {
           name: user.fullName,
           password: user.password,
           password_confirmation: user.password,
-          country_code: '+62',
+          country_code: '62',
           country: 'Indonesia',
-          phone_number: user.phoneNumber
+          phone_number: '+62' + user.phoneNumber
         }
       }
     });
@@ -36,7 +51,7 @@ test.describe('Register API Tests - User Story 1', () => {
   });
 
   // BE-03: Implementasi validasi email unik
-  test('TC-API-02: Should return 422 when registering with an existing email', async ({ request }) => {
+  test('77-TC-API-02: Should return 422 when registering with an existing email', async ({ request }) => {
     const user = UserFactory.createUser();
     const existingEmail = 'test@example.com'; // Gunakan email yang dipastikan sudah terdaftar
 
@@ -47,9 +62,9 @@ test.describe('Register API Tests - User Story 1', () => {
           name: user.fullName,
           password: user.password,
           password_confirmation: user.password,
-          country_code: '+62',
+          country_code: '62',
           country: 'Indonesia',
-          phone_number: user.phoneNumber
+          phone_number: '+62' + user.phoneNumber
         }
       }
     });
@@ -61,7 +76,7 @@ test.describe('Register API Tests - User Story 1', () => {
   });
 
   // BE-01: Validasi field input registrasi kosong
-  test('TC-API-03: Should return 422 when mandatory fields are missing', async ({ request }) => {
+  test('78-TC-API-03: Should return 422 when mandatory fields are missing', async ({ request }) => {
     const response = await request.post(`${baseURL}/api/v1/auth/register`, {
       data: {
         user: {
@@ -79,7 +94,7 @@ test.describe('Register API Tests - User Story 1', () => {
   });
 
   // BE-02: Mapping field `phone` ke `phone_number` pada registrasi
-  test('TC-API-04: Should correctly map old phone parameter to phone_number (BE-02)', async ({ request }) => {
+  test('79-TC-API-04: Should correctly map old phone parameter to phone_number (BE-02)', async ({ request }) => {
     const user = UserFactory.createUser();
 
     // Kirim menggunakan parameter `phone` alih-alih `phone_number`
@@ -90,9 +105,9 @@ test.describe('Register API Tests - User Story 1', () => {
           name: user.fullName,
           password: user.password,
           password_confirmation: user.password,
-          country_code: '+62',
+          country_code: '62',
           country: 'Indonesia',
-          phone: user.phoneNumber // <-- Menggunakan "phone"
+          phone: '+62' + user.phoneNumber // <-- Menggunakan "phone"
         }
       }
     });
@@ -105,7 +120,7 @@ test.describe('Register API Tests - User Story 1', () => {
   });
 
   // BE-04: Implementasi validasi kekuatan password
-  test('TC-API-05: Should return 422 for weak passwords (BE-04)', async ({ request }) => {
+  test('80-TC-API-05: Should return 422 for weak passwords (BE-04)', async ({ request }) => {
     const user = UserFactory.createUser();
 
     const response = await request.post(`${baseURL}/api/v1/auth/register`, {
@@ -127,7 +142,7 @@ test.describe('Register API Tests - User Story 1', () => {
   });
 
   // BE-05 & BE-08: Pembuatan trial subscription otomatis & package availability
-  test('TC-API-06: Should auto-assign default trial package upon successful registration (BE-05 & BE-08)', async ({ request }) => {
+  test('81-TC-API-06: Should auto-assign default trial package upon successful registration (BE-05 & BE-08)', async ({ request }) => {
     const user = UserFactory.createUser();
 
     // 1. Lakukan registrasi
@@ -138,7 +153,8 @@ test.describe('Register API Tests - User Story 1', () => {
           name: user.fullName,
           password: user.password,
           password_confirmation: user.password,
-          phone_number: user.phoneNumber
+          country_code: '62',
+          phone_number: '+62' + user.phoneNumber
         }
       }
     });
@@ -166,7 +182,7 @@ test.describe('Register API Tests - User Story 1', () => {
   });
 
   // BE-07: Implementasi logging aktivitas registrasi
-  test('TC-API-07: Verify activity logging for registration (BE-07) [Requires DB Access / Admin API]', async ({ request }) => {
+  test('82-TC-API-07: Verify activity logging for registration (BE-07) [Requires DB Access / Admin API]', async ({ request }) => {
     // Catatan: Pengujian logging aktivitas biasanya memerlukan akses langsung ke Database (tabel activity_logs)
     // Atau membutuhkan akses ke endpoint Admin untuk membaca log user.
     // Di sini kita menulis kerangkanya sebagai placeholder agar tidak terlupakan.

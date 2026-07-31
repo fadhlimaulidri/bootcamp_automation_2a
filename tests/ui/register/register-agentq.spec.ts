@@ -20,7 +20,7 @@ test.describe('Register AgentQ Reporting Tests', () => {
   });
 
   //  Diubah jadi 2- karena di AgentQ ID-nya adalah TC-2
-  test('2-Register success using valid credential @p0 @register', async ({ page }) => {
+  test('2-Register success using valid credential', async ({ page }) => {
     const user = UserFactory.createUser();
     const registerPage = new RegisterAgentQPage(page);
 
@@ -30,7 +30,7 @@ test.describe('Register AgentQ Reporting Tests', () => {
   });
 
   //  Diubah jadi 4- karena di AgentQ ID-nya adalah TC-4
-  test('4-Register failed using already registered email @p1 @register', async ({ page }) => {
+  test('4-Register failed using already registered email', async ({ page }) => {
     const registerPage = new RegisterAgentQPage(page);
     const user = UserFactory.createUser();
     user.email = 'nuruddinam46@gmail.com'; 
@@ -41,7 +41,7 @@ test.describe('Register AgentQ Reporting Tests', () => {
   });
 
   //  Diubah jadi 5- karena di AgentQ ID-nya adalah TC-5
-  test('5-Register failed with mismatched confirm password @p2 @register', async ({ page }) => {
+  test('5-Register failed with mismatched confirm password', async ({ page }) => {
     const registerPage = new RegisterAgentQPage(page);
     const user = UserFactory.createUser();
 
@@ -52,7 +52,7 @@ test.describe('Register AgentQ Reporting Tests', () => {
   });
 
   //  Diubah jadi 6- karena di AgentQ ID-nya adalah TC-6
-  test('6-Register failed with format email invalid @p1 @register', async ({ page }) => {
+  test('6-Register failed with format email invalid', async ({ page }) => {
     const registerPage = new RegisterAgentQPage(page);
     const user = UserFactory.createUser();
 
@@ -63,7 +63,7 @@ test.describe('Register AgentQ Reporting Tests', () => {
   });
 
   //  Diubah jadi 7- karena di AgentQ ID-nya adalah TC-7
-  test('7-Register failed with invalid phone number format @p2 @register', async ({ page }) => {
+  test('7-Register failed with invalid phone number format', async ({ page }) => {
     const registerPage = new RegisterAgentQPage(page);
     const user = UserFactory.createUser();
 
@@ -77,7 +77,7 @@ test.describe('Register AgentQ Reporting Tests', () => {
   });
 
   //  Diubah jadi 8- karena di AgentQ ID-nya adalah TC-8
-  test('8-Register failed with empty email and password @p1 @register', async ({ page }) => {
+  test('8-Register failed with empty email and password', async ({ page }) => {
     const registerPage = new RegisterAgentQPage(page);
 
     await registerPage.goto();
@@ -88,7 +88,7 @@ test.describe('Register AgentQ Reporting Tests', () => {
   });
 
   //  Diubah jadi 9- karena di AgentQ ID-nya adalah TC-9
-  test('9-Register failed with weak password @p2 @register', async ({ page }) => {
+  test('9-Register failed with weak password', async ({ page }) => {
     const registerPage = new RegisterAgentQPage(page);
     const user = UserFactory.createUser();
 
@@ -99,7 +99,7 @@ test.describe('Register AgentQ Reporting Tests', () => {
   });
 
   //  Diubah jadi 10- karena di AgentQ ID-nya adalah TC-10
-  test('10-Register failed with empty full name in Step 2 @p2 @register', async ({ page }) => {
+  test('10-Register failed with empty full name in Step 2', async ({ page }) => {
     const registerPage = new RegisterAgentQPage(page);
     const user = UserFactory.createUser();
 
@@ -114,7 +114,7 @@ test.describe('Register AgentQ Reporting Tests', () => {
   });
 
   //  Diubah jadi 11- karena di AgentQ ID-nya adalah TC-11
-  test('11-Register failed with empty company name in Step 3 @p2 @register', async ({ page }) => {
+  test('11-Register failed with empty company name in Step 3', async ({ page }) => {
     const registerPage = new RegisterAgentQPage(page);
     const user = UserFactory.createUser();
 
@@ -142,7 +142,7 @@ test.describe('Register AgentQ Reporting Tests', () => {
   });
 
   // TC-12: Verifikasi penyimpanan Token JWT di Local Storage setelah sukses registrasi (Sesuai tugas FE-06)
-  test('12-Register success and verify JWT token in local storage @p1 @register', async ({ page }) => {
+  test('12-Register success and verify JWT token in local storage', async ({ page }) => {
     const registerPage = new RegisterAgentQPage(page);
     const user = UserFactory.createUser();
 
@@ -174,7 +174,7 @@ test.describe('Register AgentQ Reporting Tests', () => {
   });
 
   // TC-13: Verifikasi API Payload mapping (phone_number vs phone) (Sesuai tugas BE-02 / FE)
-  test('13-Register success and verify API payload mapping @p2 @register', async ({ page }) => {
+  test('13-Register success and verify API payload mapping', async ({ page }) => {
     const registerPage = new RegisterAgentQPage(page);
     const user = UserFactory.createUser();
 
@@ -208,7 +208,7 @@ test.describe('Register AgentQ Reporting Tests', () => {
   });
 
   // TC-14: Verifikasi Redirect URL setelah sukses registrasi (Sesuai tugas FE-07)
-  test('14-Register success and verify redirect URL @p2 @register', async ({ page }) => {
+  test('14-Register success and verify redirect URL', async ({ page }) => {
     const registerPage = new RegisterAgentQPage(page);
     const user = UserFactory.createUser();
 

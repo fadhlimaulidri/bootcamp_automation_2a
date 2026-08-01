@@ -1,4 +1,4 @@
-﻿<div align="center">
+<div align="center">
   
 # QA SIGN-OFF DOCUMENT
 ## US-01 – Registrasi via Email & Password - Nuruddin
@@ -9,7 +9,7 @@ Emra Chat – Sprint Authentication Module
 
 | Project | Emra Web App |
 | :--- | :--- |
-| **Sprint / Release** | Sprint - Authentication Module (v1.0.0) |
+| **Sprint / Release** | R2026.1 |
 | **User Story** | US-01 – Registrasi via Email & Password - Nuruddin |
 | **Environment** | Staging |
 | **Framework** | Playwright + TypeScript |

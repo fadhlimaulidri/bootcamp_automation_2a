@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
-import { RegisterAgentQPage } from '../../../pages/register-agentq.page';
+import { RegisterAgentQPage } from '../../../pages/register/register-agentq.page';
 import { UserFactory } from '../../../utils/user-factory';
-import { pushTestResultToAgentQ } from '../../../helper/agentq-helper';
+import { pushTestResultToAgentQ } from '../../../helpers/agentq-helper';
 
 test.describe('Register AgentQ Reporting Tests', () => {
   let testStartTime: number;

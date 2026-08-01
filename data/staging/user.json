@@ -1,0 +1,21 @@
+{
+  "login": {
+    "invalid": {
+      "unregisteredEmail": "nuruddinam@gmail.com",
+      "wrongPassword": "a",
+      "invalidFormatEmail": "a"
+    }
+  },
+  "register": {
+    "existingEmail": "nuruddinam46@gmail.com",
+    "mismatchedPassword": "berbeda!3",
+    "invalidEmailFormat": "1",
+    "invalidPhoneFormat": "8969"
+  },
+  "forgotPassword": {
+    "validEmail": "nuruddin46@gmail.com",
+    "unregisteredEmail": "belum_daftar@gmail.com",
+    "invalidFormatEmail": "a",
+    "successMessage": "Reset instructions sent!"
+  }
+}

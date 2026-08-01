@@ -67,9 +67,9 @@ US-01 â€” Register | Total: 19 TC | Manual: 0 | Automation: 19
 | 6 | Register failed with empty email and password | Functional | Web | High | Auto | Negative | PASS ✅ |
 | 7 | Register failed with weak password | Functional | Web | High | Auto | Negative | PASS ✅ |
 | 8 | Register failed with empty full name in Step 2 | Functional | Web | High | Auto | Negative | PASS ✅ |
-| 9 | Register failed with empty company name in Step 3 | Functional | Web | High | Auto | Negative | FAIL âŒ |
+| 9 | Register failed with empty company name in Step 3 | Functional | Web | High | Auto | Negative | FAIL ❌ |
 | 10 | Register success and verify JWT token in local storage | Integration | Web | High | Auto | Positive | PASS ✅ |
-| 11 | Register success and verify API payload mapping | Integration | Web | High | Auto | Positive | FAIL âŒ |
+| 11 | Register success and verify API payload mapping | Integration | Web | High | Auto | Positive | FAIL ❌ |
 | 12 | Register success and verify redirect URL | Functional | Web | Medium | Auto | Positive | PASS ✅ |
 | 13 | Should register a new user successfully and return JWT tokens | Functional | API | Critical | Auto | Positive | PASS ✅ |
 | 14 | Should return 422 when registering with an existing email | Functional | API | High | Auto | Negative | PASS ✅ |

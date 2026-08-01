@@ -2,7 +2,7 @@
   
 # QA SIGN-OFF DOCUMENT
 ## US-01 – Registrasi via Email & Password - Nuruddin
-Emra Chat â€“ Sprint Authentication Module
+Emra Chat – Sprint Authentication Module
 28 Juli 2026
 
 <br>
@@ -19,7 +19,7 @@ Emra Chat â€“ Sprint Authentication Module
 
 <br>
 
-| STATUS | SEMUA 19 TEST CASE TELAH DIEKSEKUSI â€“ SIAP SIGN-OFF |
+| STATUS | SEMUA 19 TEST CASE TELAH DIEKSEKUSI – SIAP SIGN-OFF |
 | :---: | :--- |
 
 </div>
@@ -59,25 +59,25 @@ US-01 â€” Register | Total: 19 TC | Manual: 0 | Automation: 19
 
 | No | Title | Type | Platform | Priority | Exec | Tag | Result |
 | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| 1 | Register success using valid credential | Functional | Web | Critical | Auto | Positive | PASS âœ… |
-| 2 | Register failed using already registered email | Functional | Web | High | Auto | Negative | PASS âœ… |
-| 3 | Register failed with mismatched confirm password | Functional | Web | High | Auto | Negative | PASS âœ… |
-| 4 | Register failed with format email invalid | Functional | Web | Medium | Auto | Negative | PASS âœ… |
-| 5 | Register failed with invalid phone number format | Functional | Web | Medium | Auto | Negative | PASS âœ… |
-| 6 | Register failed with empty email and password | Functional | Web | High | Auto | Negative | PASS âœ… |
-| 7 | Register failed with weak password | Functional | Web | High | Auto | Negative | PASS âœ… |
-| 8 | Register failed with empty full name in Step 2 | Functional | Web | High | Auto | Negative | PASS âœ… |
+| 1 | Register success using valid credential | Functional | Web | Critical | Auto | Positive | PASS ✅ |
+| 2 | Register failed using already registered email | Functional | Web | High | Auto | Negative | PASS ✅ |
+| 3 | Register failed with mismatched confirm password | Functional | Web | High | Auto | Negative | PASS ✅ |
+| 4 | Register failed with format email invalid | Functional | Web | Medium | Auto | Negative | PASS ✅ |
+| 5 | Register failed with invalid phone number format | Functional | Web | Medium | Auto | Negative | PASS ✅ |
+| 6 | Register failed with empty email and password | Functional | Web | High | Auto | Negative | PASS ✅ |
+| 7 | Register failed with weak password | Functional | Web | High | Auto | Negative | PASS ✅ |
+| 8 | Register failed with empty full name in Step 2 | Functional | Web | High | Auto | Negative | PASS ✅ |
 | 9 | Register failed with empty company name in Step 3 | Functional | Web | High | Auto | Negative | FAIL âŒ |
-| 10 | Register success and verify JWT token in local storage | Integration | Web | High | Auto | Positive | PASS âœ… |
+| 10 | Register success and verify JWT token in local storage | Integration | Web | High | Auto | Positive | PASS ✅ |
 | 11 | Register success and verify API payload mapping | Integration | Web | High | Auto | Positive | FAIL âŒ |
-| 12 | Register success and verify redirect URL | Functional | Web | Medium | Auto | Positive | PASS âœ… |
-| 13 | Should register a new user successfully and return JWT tokens | Functional | API | Critical | Auto | Positive | PASS âœ… |
-| 14 | Should return 422 when registering with an existing email | Functional | API | High | Auto | Negative | PASS âœ… |
-| 15 | Should return 422 when mandatory fields are missing | Functional | API | High | Auto | Negative | PASS âœ… |
-| 16 | Should correctly map old phone parameter to phone_number | Functional | API | Medium | Auto | Edge | PASS âœ… |
-| 17 | Should return 422 for weak passwords | Functional | API | Medium | Auto | Negative | PASS âœ… |
-| 18 | Should auto-assign default trial package upon successful registration | Functional | API | High | Auto | Positive | PASS âœ… |
-| 19 | Verify activity logging for registration | Integration | API | Medium | Auto | Edge | PASS âœ… |
+| 12 | Register success and verify redirect URL | Functional | Web | Medium | Auto | Positive | PASS ✅ |
+| 13 | Should register a new user successfully and return JWT tokens | Functional | API | Critical | Auto | Positive | PASS ✅ |
+| 14 | Should return 422 when registering with an existing email | Functional | API | High | Auto | Negative | PASS ✅ |
+| 15 | Should return 422 when mandatory fields are missing | Functional | API | High | Auto | Negative | PASS ✅ |
+| 16 | Should correctly map old phone parameter to phone_number | Functional | API | Medium | Auto | Edge | PASS ✅ |
+| 17 | Should return 422 for weak passwords | Functional | API | Medium | Auto | Negative | PASS ✅ |
+| 18 | Should auto-assign default trial package upon successful registration | Functional | API | High | Auto | Positive | PASS ✅ |
+| 19 | Verify activity logging for registration | Integration | API | Medium | Auto | Edge | PASS ✅ |
 
 ---
 
@@ -128,7 +128,7 @@ Berdasarkan kesimpulan *NO-GO* dan pelaporan *bug* di atas, persetujuan bersyara
 | Prepared By | Reviewed By | Approved By |
 | :---: | :---: | :---: |
 | **QA Engineer** | **QA Lead** | **Product Manager** |
-| Signature: Nuruddin | Signature: _______________ | Signature: _______________ |
+| Signature: Nuruddin | Signature: Fadhli Maulidri | Signature: Tim PM Emra Chat |
 | Date: 28 Juli 2026 | Date: _______________ | Date: _______________ |
 
 <br>
@@ -163,5 +163,5 @@ Berdasarkan kesimpulan *NO-GO* dan pelaporan *bug* di atas, persetujuan bersyara
 <br>
 
 <div align="center">
-  <small style="color: gray;">Emra Chat â€“ QA Team | Dokumen ini bersifat rahasia dan hanya untuk penggunaan internal.</small>
+  <small style="color: gray;">Emra Chat – QA Team | Dokumen ini bersifat rahasia dan hanya untuk penggunaan internal.</small>
 </div>

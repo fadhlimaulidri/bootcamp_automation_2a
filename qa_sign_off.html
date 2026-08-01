@@ -1,0 +1,443 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset='UTF-8'>
+<style>body{font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; padding: 2rem; max-width: 900px; margin: 0 auto; color: #333;} table{border-collapse: collapse; width: 100%; margin-bottom: 1rem;} th, td{border: 1px solid #ddd; padding: 8px;} th{background-color: #f4f4f4;} img{max-width: 100%; height: auto; border: 1px solid #eee; border-radius: 4px;}</style>
+</head>
+<body>
+<div align="center"><h1>QA SIGN-OFF DOCUMENT</h1>
+<h2>FR-01-Fitur Registrasi (Nuruddin)</h2>
+<p>Emra Chat – Sprint Authentication Module
+28 Juli 2026</p>
+<br><table>
+<thead>
+<tr>
+<th align="left">Project</th>
+<th align="left">Emra Web App</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Sprint / Release</strong></td>
+<td align="left">Sprint - Authentication Module (v1.0.0)</td>
+</tr>
+<tr>
+<td align="left"><strong>User Story</strong></td>
+<td align="left">FR-01-User Registration (Nuruddin)</td>
+</tr>
+<tr>
+<td align="left"><strong>Environment</strong></td>
+<td align="left">Staging</td>
+</tr>
+<tr>
+<td align="left"><strong>Framework</strong></td>
+<td align="left">Playwright + TypeScript</td>
+</tr>
+<tr>
+<td align="left"><strong>QA Engineer</strong></td>
+<td align="left">Nuruddin</td>
+</tr>
+<tr>
+<td align="left"><strong>Date Prepared</strong></td>
+<td align="left">28 Juli 2026</td>
+</tr>
+<tr>
+<td align="left"><strong>Version</strong></td>
+<td align="left">1.0</td>
+</tr>
+</tbody></table>
+<br><table>
+<thead>
+<tr>
+<th align="center">STATUS</th>
+<th align="left">SEMUA 19 TEST CASE TELAH DIEKSEKUSI – SIAP SIGN-OFF</th>
+</tr>
+</thead>
+</table>
+</div><br><h2>1. Executive Summary</h2>
+<p>Dokumen ini merupakan laporan resmi QA Sign-Off untuk User Story FR-01 (Fitur Registrasi) pada aplikasi Emra Chat. Seluruh 19 test case automation telah dieksekusi melalui Playwright dan hasilnya diverifikasi menggunakan AgentQ.</p>
+<p>Pengujian mencakup skenario fungsional (16 TC) dan integrasi API (3 TC), dengan distribusi skenario positif, negatif, dan edge case. Pengujian dilakukan sepenuhnya menggunakan <em>automation</em> pada platform Web dan API.</p>
+<h3>Scope of Testing</h3>
+<p><strong>Automation Testing (In Scope):</strong></p>
+<ul>
+<li><em>Regression test suite</em> mencakup <em>positive data inputs</em>, <em>boundary rules</em>, dan pengecekan validasi form registrasi.</li>
+<li><em>Endpoint integration testing</em>, validasi <em>response status code</em>, dan <em>backend error-handling verification</em>.</li>
+</ul>
+<p><strong>Out Of Scope:</strong></p>
+<ul>
+<li>Fitur <em>Forgot Password/Reset Password</em>.</li>
+<li>Pengujian <em>Load</em> dan <em>Performance</em>.</li>
+<li>Pengujian eksploratori manual (seluruh 19 kasus uji ini 100% <em>automated</em>).</li>
+</ul>
+<hr>
+<h2>2. Test Execution Summary</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Metric</th>
+<th align="center">Total</th>
+<th align="center">Critical</th>
+<th align="center">High</th>
+<th align="center">Others</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Test Cases</strong></td>
+<td align="center"><strong>19</strong></td>
+<td align="center">2</td>
+<td align="center">11</td>
+<td align="center">6</td>
+</tr>
+<tr>
+<td align="left"><strong>Execution Type</strong></td>
+<td align="center">Manual: 0</td>
+<td align="center">Auto: 19</td>
+<td align="center">100% auto</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="left"><strong>Test Type</strong></td>
+<td align="center">Func: 16</td>
+<td align="center">Integ: 3</td>
+<td align="center">Sec: 0</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="left"><strong>Scenario Coverage</strong></td>
+<td align="center">Positive: 6</td>
+<td align="center">Negative: 11</td>
+<td align="center">Edge: 2</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<hr>
+<h2>3. Detail Test Cases</h2>
+<p>FR-01 — Register | Total: 19 TC | Manual: 0 | Automation: 19</p>
+<table>
+<thead>
+<tr>
+<th align="center">No</th>
+<th align="left">Title</th>
+<th align="center">Type</th>
+<th align="center">Platform</th>
+<th align="center">Priority</th>
+<th align="center">Exec</th>
+<th align="center">Tag</th>
+<th align="center">Result</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="left">Register success using valid credential</td>
+<td align="center">Functional</td>
+<td align="center">Web</td>
+<td align="center">Critical</td>
+<td align="center">Auto</td>
+<td align="center">Positive</td>
+<td align="center">PASS ✅</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="left">Register failed using already registered email</td>
+<td align="center">Functional</td>
+<td align="center">Web</td>
+<td align="center">High</td>
+<td align="center">Auto</td>
+<td align="center">Negative</td>
+<td align="center">PASS ✅</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="left">Register failed with mismatched confirm password</td>
+<td align="center">Functional</td>
+<td align="center">Web</td>
+<td align="center">High</td>
+<td align="center">Auto</td>
+<td align="center">Negative</td>
+<td align="center">PASS ✅</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="left">Register failed with format email invalid</td>
+<td align="center">Functional</td>
+<td align="center">Web</td>
+<td align="center">Medium</td>
+<td align="center">Auto</td>
+<td align="center">Negative</td>
+<td align="center">PASS ✅</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="left">Register failed with invalid phone number format</td>
+<td align="center">Functional</td>
+<td align="center">Web</td>
+<td align="center">Medium</td>
+<td align="center">Auto</td>
+<td align="center">Negative</td>
+<td align="center">PASS ✅</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="left">Register failed with empty email and password</td>
+<td align="center">Functional</td>
+<td align="center">Web</td>
+<td align="center">High</td>
+<td align="center">Auto</td>
+<td align="center">Negative</td>
+<td align="center">PASS ✅</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="left">Register failed with weak password</td>
+<td align="center">Functional</td>
+<td align="center">Web</td>
+<td align="center">High</td>
+<td align="center">Auto</td>
+<td align="center">Negative</td>
+<td align="center">PASS ✅</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="left">Register failed with empty full name in Step 2</td>
+<td align="center">Functional</td>
+<td align="center">Web</td>
+<td align="center">High</td>
+<td align="center">Auto</td>
+<td align="center">Negative</td>
+<td align="center">PASS ✅</td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="left">Register failed with empty company name in Step 3</td>
+<td align="center">Functional</td>
+<td align="center">Web</td>
+<td align="center">High</td>
+<td align="center">Auto</td>
+<td align="center">Negative</td>
+<td align="center">FAIL ❌</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="left">Register success and verify JWT token in local storage</td>
+<td align="center">Integration</td>
+<td align="center">Web</td>
+<td align="center">High</td>
+<td align="center">Auto</td>
+<td align="center">Positive</td>
+<td align="center">PASS ✅</td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td align="left">Register success and verify API payload mapping</td>
+<td align="center">Integration</td>
+<td align="center">Web</td>
+<td align="center">High</td>
+<td align="center">Auto</td>
+<td align="center">Positive</td>
+<td align="center">FAIL ❌</td>
+</tr>
+<tr>
+<td align="center">12</td>
+<td align="left">Register success and verify redirect URL</td>
+<td align="center">Functional</td>
+<td align="center">Web</td>
+<td align="center">Medium</td>
+<td align="center">Auto</td>
+<td align="center">Positive</td>
+<td align="center">PASS ✅</td>
+</tr>
+<tr>
+<td align="center">13</td>
+<td align="left">Should register a new user successfully and return JWT tokens</td>
+<td align="center">Functional</td>
+<td align="center">API</td>
+<td align="center">Critical</td>
+<td align="center">Auto</td>
+<td align="center">Positive</td>
+<td align="center">PASS ✅</td>
+</tr>
+<tr>
+<td align="center">14</td>
+<td align="left">Should return 422 when registering with an existing email</td>
+<td align="center">Functional</td>
+<td align="center">API</td>
+<td align="center">High</td>
+<td align="center">Auto</td>
+<td align="center">Negative</td>
+<td align="center">PASS ✅</td>
+</tr>
+<tr>
+<td align="center">15</td>
+<td align="left">Should return 422 when mandatory fields are missing</td>
+<td align="center">Functional</td>
+<td align="center">API</td>
+<td align="center">High</td>
+<td align="center">Auto</td>
+<td align="center">Negative</td>
+<td align="center">PASS ✅</td>
+</tr>
+<tr>
+<td align="center">16</td>
+<td align="left">Should correctly map old phone parameter to phone_number</td>
+<td align="center">Functional</td>
+<td align="center">API</td>
+<td align="center">Medium</td>
+<td align="center">Auto</td>
+<td align="center">Edge</td>
+<td align="center">PASS ✅</td>
+</tr>
+<tr>
+<td align="center">17</td>
+<td align="left">Should return 422 for weak passwords</td>
+<td align="center">Functional</td>
+<td align="center">API</td>
+<td align="center">Medium</td>
+<td align="center">Auto</td>
+<td align="center">Negative</td>
+<td align="center">PASS ✅</td>
+</tr>
+<tr>
+<td align="center">18</td>
+<td align="left">Should auto-assign default trial package upon successful registration</td>
+<td align="center">Functional</td>
+<td align="center">API</td>
+<td align="center">High</td>
+<td align="center">Auto</td>
+<td align="center">Positive</td>
+<td align="center">PASS ✅</td>
+</tr>
+<tr>
+<td align="center">19</td>
+<td align="left">Verify activity logging for registration</td>
+<td align="center">Integration</td>
+<td align="center">API</td>
+<td align="center">Medium</td>
+<td align="center">Auto</td>
+<td align="center">Edge</td>
+<td align="center">PASS ✅</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>4. Notes &amp; Risk Assessment</h2>
+<h3>4.1 Temuan &amp; Catatan QA</h3>
+<p>Terdapat <strong>1 defect (bug)</strong> yang dilaporkan dan membutuhkan perbaikan, namun tidak secara fatal memblokir alur utama jika pengguna melengkapi form secara penuh.</p>
+<ul>
+<li><strong>Bug UI:</strong> Field <em>Company Name</em> tertahan oleh validasi bawaan HTML5 (<code>required</code>) padahal di spesifikasi RFC Backend field tersebut bersifat opsional.</li>
+<li><strong>Bug API/Payload:</strong> Mapping parameter <code>phone</code> tidak sesuai dengan ekspektasi payload <code>phone_number</code>.</li>
+<li>Automation coverage FR-01: <strong>100% (19 dari 19 TC)</strong> dieksekusi secara otomatis via Playwright.</li>
+</ul>
+<h3>4.2 Pipeline &amp; Integrasi</h3>
+<ul>
+<li><strong>GitHub Action CI Pipeline:</strong> <code>❌ FAILED (Red)</code> (Hal ini <em>expected</em>/wajar, karena pipeline berhasil menangkap <em>bug</em> pada field <em>Company Name</em> dan Payload Mapping. Otomatisasi berjalan sesuai dengan yang diharapkan).</li>
+<li><strong>Catatan Limitasi CI/CD ke AgentQ:</strong> Terdapat limitasi dari <em>server</em> pihak ketiga (AgentQ) yang dilindungi oleh <strong>Cloudflare Anti-Bot</strong>. Server GitHub Actions (sebagai Data Center IP) diblokir oleh Cloudflare (tercegat halaman <em>Captcha: Just a moment...</em>), sehingga sinkronisasi laporan otomatis dari GitHub Actions ke AgentQ gagal (<em>Authentication failed</em>). Pengiriman hasil tes (Reporting) akhirnya dieksekusi secara lokal dari mesin QA Engineer yang bebas pemblokiran IP.</li>
+</ul>
+<h3>4.3 Risiko &amp; Rekomendasi</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Area / Bug Summary</th>
+<th align="center">Severity</th>
+<th align="left">Impact</th>
+<th align="left">Status</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Bug Frontend UI:</strong> Field <em>Company Name</em> menggunakan validasi wajib HTML5 yang menahan form disubmit.</td>
+<td align="center">Medium</td>
+<td align="left"><em>User</em> tidak bisa mendaftar jika form dikosongkan, padahal secara kontrak RFC dikategorikan opsional. Membingungkan UX.</td>
+<td align="left">Open. Harus disesuaikan menjadi opsional di Frontend.</td>
+</tr>
+<tr>
+<td align="left"><strong>API Mapping:</strong> Terjadi <em>mismatch</em> payload <code>phone</code> vs <code>phone_number</code> saat request POST registrasi.</td>
+<td align="center">High</td>
+<td align="left">Miskomunikasi kontrak data API antara Frontend dan Backend yang dapat menyebabkan kegagalan pencatatan data pengguna.</td>
+<td align="left">Open. Backend harus memperbaiki parameter penerimaan.</td>
+</tr>
+<tr>
+<td align="left"><strong>Security API:</strong> Sistem API menerima password sangat lemah (123) dan merespon sukses (201).</td>
+<td align="center">Critical</td>
+<td align="left">Risiko keamanan fatal. Sistem melanggar <em>security API contract</em>, membiarkan akun rentan dibobol.</td>
+<td align="left">Open. Validasi keamanan <em>password</em> wajib diperbaiki sebelum rilis.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>5. Conclusion &amp; Recommendation</h2>
+<ul>
+<li><strong>Go/No-Go Recommendation:</strong> <strong>NO-GO</strong></li>
+<li><strong>Justification:</strong> Pengujian untuk fitur Registrasi (FR-01) telah diselesaikan 100% secara <em>automation</em>. Secara fungsional alur utama (<em>Happy Path</em>) berfungsi, namun <em>build</em> saat ini tidak direkomendasikan untuk dirilis (<em>NO-GO</em>). Hambatan utamanya adalah ditemukannya celah keamanan kritis pada API serta ketidaksesuaian kontrak data.</li>
+<li><strong>Key Factors Driving the NO-GO Decision:</strong><ul>
+<li>Terdapat <strong>1 Critical Bug</strong> (Sistem menerima <em>password</em> lemah) dan <strong>2 Medium/High Bugs</strong> (API Mapping &amp; UI form) yang wajib diperbaiki.</li>
+<li>Secara khusus, kegagalan sistem dalam menolak <em>password</em> lemah sangat membahayakan keamanan akun pengguna baru.</li>
+</ul>
+</li>
+<li><strong>Required Actions Prior to Re-Evaluation:</strong><ul>
+<li>Perbaikan dan validasi ulang <em>security rules</em> untuk <em>password</em> di sisi <em>Backend</em>.</li>
+<li>Sinkronisasi kontrak <em>payload</em> API antara Frontend dan Backend.</li>
+<li>Perbaikan atribut validasi HTML5 pada Frontend.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2>6. Sign-Off Approval</h2>
+<p>Berdasarkan kesimpulan <em>NO-GO</em> dan pelaporan <em>bug</em> di atas, persetujuan bersyarat diberikan agar tim Developer segera menindaklanjuti temuan tersebut. Dengan menandatangani dokumen ini, seluruh pihak menyatakan bahwa:</p>
+<ol>
+<li>Seluruh test case FR-01 dalam scope telah dieksekusi 100% menggunakan Automation Playwright.</li>
+<li>Hasil pengujian telah direview dan disetujui validitasnya.</li>
+<li>FR-01 Fitur Registrasi dinyatakan <strong>NOT APPROVED (NO-GO)</strong> hingga <em>Critical Bugs</em> diperbaiki dan siap untuk <em>re-test</em>.</li>
+</ol>
+<br><table>
+<thead>
+<tr>
+<th align="center">Prepared By</th>
+<th align="center">Reviewed By</th>
+<th align="center">Approved By</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>QA Engineer</strong></td>
+<td align="center"><strong>QA Lead</strong></td>
+<td align="center"><strong>Product Manager</strong></td>
+</tr>
+<tr>
+<td align="center">Signature: Nuruddin</td>
+<td align="center">Signature: _______________</td>
+<td align="center">Signature: _______________</td>
+</tr>
+<tr>
+<td align="center">Date: 28 Juli 2026</td>
+<td align="center">Date: _______________</td>
+<td align="center">Date: _______________</td>
+</tr>
+</tbody></table>
+<br><hr>
+<h2>6. Lampiran (Attachments)</h2>
+<p><em>(Wajib dilampirkan sebelum penyerahan dokumen)</em></p>
+<ul>
+<li><strong>Dashboard AgentQ:</strong>
+<img src="./report-assets/agentq1.png" alt="AgentQ Dashboard 1">
+<img src="./report-assets/agentq2.png" alt="AgentQ Dashboard 2"></li>
+<li><strong>Bukti Error Test UI (Playwright Screenshot):</strong>
+<img src="./report-assets/playwright-error.png" alt="Error Payload Mapping"></li>
+<li><strong>Bukti Error Test API (Log Output):</strong>
+Berikut adalah log kegagalan (<em>bug</em>) dari respon API <em>backend</em> Emra Chat:<pre><code class="language-text">1) 80-TC-API-05: Should return 422 for weak passwords (BE-04)
+   Error: expect(received).toBe(expected)
+   Expected: 422
+   Received: 201 (Bug: Sistem menerima password lemah)
+
+2) 81-TC-API-06: Should auto-assign default trial package (BE-05 &amp; BE-08)
+   Error: expect(received).toBe(expected)
+   Expected: &quot;active&quot;
+   Received: undefined (Bug: Status user tidak dikembalikan sebagai active)
+</code></pre>
+</li>
+<li><strong>Hasil GitHub Actions:</strong> <a href="https://github.com/fadhlimaulidri/bootcamp_automation_2a/actions/runs/30627375827">https://github.com/fadhlimaulidri/bootcamp_automation_2a/actions/runs/30627375827</a></li>
+<li><strong>Tiket Bug di Plane:</strong> [Tautan tiket Plane Anda di sini]</li>
+<li><strong>Data CSV Test Cases (Import AgentQ):</strong>
+<img src="./report-assets/import_agentq.png" alt="Data CSV Import AgentQ"></li>
+</ul>
+<br>
+<br><div align="center">
+  <small style="color: gray;">Emra Chat – QA Team | Dokumen ini bersifat rahasia dan hanya untuk penggunaan internal.</small>
+</div>
+
+</body>
+</html>

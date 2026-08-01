@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { UserFactory } from '../../../utils/user-factory';
-import { pushTestResultToAgentQ } from '../../../helper/agentq-helper';
+import { pushTestResultToAgentQ } from '../../../helpers/agentq-helper';
 
 test.describe('Register API Tests - User Story 1', () => {
   let testStartTime: number;

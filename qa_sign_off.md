@@ -155,7 +155,7 @@ Berdasarkan kesimpulan *NO-GO* dan pelaporan *bug* di atas, persetujuan bersyara
      Received: undefined (Bug: Status user tidak dikembalikan sebagai active)
   ```
 - **Hasil GitHub Actions:** https://github.com/fadhlimaulidri/bootcamp_automation_2a/actions/runs/30627375827
-- **Tiket Bug di Plane:** [Tautan tiket Plane Anda di sini]
+- **Tiket Bug di Plane:** https://plane.emra.pro/fadhlimaulidri/projects/b5a92fdc-44cb-46bf-91f1-c22d7123ec8a/issues/
 - **Data CSV Test Cases (Import AgentQ):**
   ![Data CSV Import AgentQ](./report-assets/import_agentq.png)
 
